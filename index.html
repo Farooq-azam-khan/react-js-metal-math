@@ -35,29 +35,28 @@
     <body>
         <div id="app"/>
         <script type="text/babel">
+            const operationsMap = {
+                    0: '+', 
+                    1: '-', 
+                    2: '*', 
+                    3: '/'
+            }; 
+            const operationApplication = {
+                '+': (num1, num2) => {return num1+num2;}, 
+                '-': (num1, num2) => {return num1-num2;}, 
+                '*': (num1, num2) => {return num1*num2;}, 
+                '/': (num1, num2) => {return num1/num2}
+            }; 
+                
             function getActualAnswer(op, num1, num2) {
-            
-                if (op === '+') {
-                    return num1 + num2; 
-                } else if (op === '-') { 
-                    return num1 - num2; 
-                } else if (op=== '*') {
-                    return num1 * num2; 
-                } else {
-                    return num1 / num2; 
-                }
+                return operationApplication[op](num1, num2); 
             }
+
+            
+            // Pick a random number and map it to the operation chosses
             function getRandomOp() {
-                const random_number = Math.floor(Math.random() * 4);
-                if (random_number === 0) { 
-                    return '+';
-                } else if (random_number === 1) {
-                    return '-';
-                } else if (random_number === 2) {
-                    return '*';
-                } else {
-                    return '/';
-                }
+                const op_number = Math.floor(Math.random() * 4);
+                return operationsMap[op_number]; 
             }
 
             class App extends React.Component {
@@ -78,21 +77,28 @@
 
                 inputKeyPress = (event) => {
                     if (event.key === 'Enter') {
-
-                        const actual_answer = getActualAnswer(this.state.operation_str, this.state.num1, this.state.num2); 
+                        const operation_str = this.state.operation_str; 
+                        const num1 = this.state.num1; 
+                        const num2 = this.state.num2; 
+                        const actual_answer = getActualAnswer(operation_str, num1, num2); 
                         const answer = parseInt(this.state.response); 
-                        
 
                         if (actual_answer === answer) {
                             this.updateState(); 
                         } else {
-                            this.setState({
-                                response: "", 
-                                incorrect: true
-                            }); 
+                            this.wrongAnswerState(); 
                         }
                     }
                 }
+
+                // if answer is wrong then 
+                wrongAnswerState = () => {
+                    this.setState({
+                        response: "", 
+                        incorrect: true
+                    }); 
+                }
+
                 updateState = () => {
                     this.setState({
                             num1: Math.ceil(Math.random() * 10), 
@@ -102,11 +108,13 @@
                             operation_str: getRandomOp()
                         });
                 }
+
                 updateDivisionState = () => {
                     if (this.state.operation_str === '/'){
                         this.updateState()
                     }
                 }
+
                 render() {
                     return (<div>
                         <h1>Mental Math Tester</h1>
@@ -115,11 +123,19 @@
                             </span> <span className="op"> {this.state.operation_str} </span>
                             <span className="num"> {this.state.num2} </span>
                         </div>
-                        <input value={this.state.response} onKeyPress={this.inputKeyPress} onChange={this.updateResponse} />
-                        <button onClick={this.updateDivisionState}>Report Float</button>
+                        <div>
+                            <input 
+                                value={this.state.response} 
+                                onKeyPress={this.inputKeyPress} 
+                                onChange={this.updateResponse} 
+                            />
+                            <button onClick={this.updateDivisionState}>Report Float</button>
+                        </div>
                     </div>); 
                 }
             }
+
+            // render the dom
             ReactDOM.render(<App />, document.getElementById('app')); 
         
         </script>
