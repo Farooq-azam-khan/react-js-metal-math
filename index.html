@@ -23,91 +23,69 @@
             <title>React Test</title>
         </head>
         <body>
-            <div id="app"/>
+            <div id="app" />
+            <script src="opeartions.js"></script>
+            <script src="script.js"></script>
             <script type="text/babel">
-                const operationsMap = {
-                        0: '+', 
-                        1: '-', 
-                        2: '*', 
-                        3: '/'
-                }; 
-                const operationApplication = {
-                    '+': (num1, num2) => {return num1+num2;}, 
-                    '-': (num1, num2) => {return num1-num2;}, 
-                    '*': (num1, num2) => {return num1*num2;}, 
-                    '/': (num1, num2) => {return num1/num2}
-                }; 
-                    
-                function getActualAnswer(op, num1, num2) {
-                    return operationApplication[op](num1, num2); 
-                }
-
-                
-                // Pick a random number and map it to the operation chosses
-                function getRandomOp() {
-                    const op_number = Math.floor(Math.random() * 4);
-                    return operationsMap[op_number]; 
-                }
-
                 class App extends React.Component {
-                    constructor(props) {
-                        super(props); 
-                        this.state = {
-                            num1: 1, 
-                            num2: 1, 
-                            response: "",
-                            incorrect: false,  
-                            operation_str: '+'
-                        }; 
-                    }
+                constructor(props) {
+                    super(props); 
+                    this.state = {
+                        num1: 1, 
+                        num2: 1, 
+                        response: "",
+                        incorrect: false,  
+                        operation_str: '+'
+                    }; 
+                }
 
-                    updateResponse = (event) => {
-                        this.setState({response: event.target.value}); 
-                    }
+                updateResponse = (event) => {
+                    this.setState({response: event.target.value}); 
+                }
 
-                    inputKeyPress = (event) => {
-                        if (event.key === 'Enter') {
-                            const operation_str = this.state.operation_str; 
-                            const num1 = this.state.num1; 
-                            const num2 = this.state.num2; 
-                            const actual_answer = getActualAnswer(operation_str, num1, num2); 
-                            const answer = parseInt(this.state.response); 
+                inputKeyPress = (event) => {
+                    if (event.key === 'Enter') {
+                        const operation_str = this.state.operation_str; 
+                        const num1 = this.state.num1; 
+                        const num2 = this.state.num2; 
+                        const actual_answer = getActualAnswer(operation_str, num1, num2); 
+                        const answer = parseInt(this.state.response); 
 
-                            if (actual_answer === answer) {
-                                this.updateState(); 
-                            } else {
-                                this.wrongAnswerState(); 
-                            }
+                        if (actual_answer === answer) {
+                            this.updateState(); 
+                        } else {
+                            this.wrongAnswerState(); 
                         }
                     }
+                }
 
-                    // if answer is wrong then 
-                    wrongAnswerState = () => {
-                        this.setState({
+                // if answer is wrong then 
+                wrongAnswerState = () => {
+                    this.setState({
+                        response: "", 
+                        incorrect: true
+                    }); 
+                }
+
+                updateState = () => {
+                    this.setState({
+                            num1: Math.ceil(Math.random() * 10), 
+                            num2: Math.ceil(Math.random() * 10),
                             response: "", 
-                            incorrect: true
-                        }); 
-                    }
+                            incorrect: false, 
+                            operation_str: getRandomOp()
+                        });
+                }
 
-                    updateState = () => {
-                        this.setState({
-                                num1: Math.ceil(Math.random() * 10), 
-                                num2: Math.ceil(Math.random() * 10),
-                                response: "", 
-                                incorrect: false, 
-                                operation_str: getRandomOp()
-                            });
+                updateDivisionState = () => {
+                    if (this.state.operation_str === '/'){
+                        this.updateState()
                     }
+                }
 
-                    updateDivisionState = () => {
-                        if (this.state.operation_str === '/'){
-                            this.updateState()
-                        }
-                    }
-
-                    render() {
-                        return (<div>
-                            <h1>Mental Math Tester</h1>
+                render() {
+                    return (<div>
+                        <h1>Mental Math Tester</h1>
                             <div className={this.state.incorrect ? "incorrect" : ""}>
                                 <span className="num"> {this.state.num1} 
                                 </span> <span className="op"> {this.state.operation_str} </span>
@@ -128,9 +106,8 @@
                     }
                 }
 
-                // render the dom
+                // // render the dom
                 ReactDOM.render(<App />, document.getElementById('app')); 
-            
-            </script>
+            </script>            
         </body>
     </html>
