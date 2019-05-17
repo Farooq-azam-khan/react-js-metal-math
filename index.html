@@ -1,143 +1,161 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-        <style>
-            :root {
-                --bg-color: #f4f4f4; 
-                --incorrect-bg-color: red; 
-                --font-size: 3rem; 
-            }
-            #app {
-                text-align: center; 
-                margin: auto; 
-                width: 50%; 
-                border: 3px solid var(--bg-color) ;
-                padding: 10px; 
-            }
-            .incorrect {
-                background-color: var(--incorrect-bg-color); 
-            }
-            .op {
-                font-size: var(--font-size); 
-            }
-            .num {
-                padding: 1rem; 
-                margin: 1rem; 
-                font-size: var(--font-size); 
-                /* background-color: var(--bg-color);  */
-            }
-        </style>
-        <title>React Test</title>
-    </head>
-    <body>
-        <div id="app"/>
-        <script type="text/babel">
-            const operationsMap = {
-                    0: '+', 
-                    1: '-', 
-                    2: '*', 
-                    3: '/'
-            }; 
-            const operationApplication = {
-                '+': (num1, num2) => {return num1+num2;}, 
-                '-': (num1, num2) => {return num1-num2;}, 
-                '*': (num1, num2) => {return num1*num2;}, 
-                '/': (num1, num2) => {return num1/num2}
-            }; 
-                
-            function getActualAnswer(op, num1, num2) {
-                return operationApplication[op](num1, num2); 
-            }
+    <!DOCTYPE html>
+    <html>
+        <head>
+
+                <link
+                rel="stylesheet"
+                href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+                integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+                crossorigin="anonymous"
+            />
+
+            <!-- react -->
+            <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+
+            <!-- react-dom -->
+            <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+
+            <!-- babel -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
 
             
-            // Pick a random number and map it to the operation chosses
-            function getRandomOp() {
-                const op_number = Math.floor(Math.random() * 4);
-                return operationsMap[op_number]; 
-            }
-
-            class App extends React.Component {
-                constructor(props) {
-                    super(props); 
-                    this.state = {
-                        num1: 1, 
-                        num2: 1, 
-                        response: "",
-                        incorrect: false,  
-                        operation_str: '+'
-                    }; 
+            <style>
+                :root {
+                    --bg-color: #f4f4f4; 
+                    --incorrect-bg-color: red; 
+                    --font-size: 3rem; 
+                }
+                #app {
+                    text-align: center; 
+                    margin: auto; 
+                    width: 50%; 
+                    border: 3px solid var(--bg-color) ;
+                    padding: 10px; 
+                }
+                .incorrect {
+                    background-color: var(--incorrect-bg-color); 
+                }
+                .op {
+                    font-size: var(--font-size); 
+                }
+                .num {
+                    padding: 1rem; 
+                    margin: 1rem; 
+                    font-size: var(--font-size); 
+                    /* background-color: var(--bg-color);  */
+                }
+            </style>
+            <title>React Test</title>
+        </head>
+        <body>
+            <div id="app"/>
+            <script type="text/babel">
+                const operationsMap = {
+                        0: '+', 
+                        1: '-', 
+                        2: '*', 
+                        3: '/'
+                }; 
+                const operationApplication = {
+                    '+': (num1, num2) => {return num1+num2;}, 
+                    '-': (num1, num2) => {return num1-num2;}, 
+                    '*': (num1, num2) => {return num1*num2;}, 
+                    '/': (num1, num2) => {return num1/num2}
+                }; 
+                    
+                function getActualAnswer(op, num1, num2) {
+                    return operationApplication[op](num1, num2); 
                 }
 
-                updateResponse = (event) => {
-                    this.setState({response: event.target.value}); 
+                
+                // Pick a random number and map it to the operation chosses
+                function getRandomOp() {
+                    const op_number = Math.floor(Math.random() * 4);
+                    return operationsMap[op_number]; 
                 }
 
-                inputKeyPress = (event) => {
-                    if (event.key === 'Enter') {
-                        const operation_str = this.state.operation_str; 
-                        const num1 = this.state.num1; 
-                        const num2 = this.state.num2; 
-                        const actual_answer = getActualAnswer(operation_str, num1, num2); 
-                        const answer = parseInt(this.state.response); 
+                class App extends React.Component {
+                    constructor(props) {
+                        super(props); 
+                        this.state = {
+                            num1: 1, 
+                            num2: 1, 
+                            response: "",
+                            incorrect: false,  
+                            operation_str: '+'
+                        }; 
+                    }
 
-                        if (actual_answer === answer) {
-                            this.updateState(); 
-                        } else {
-                            this.wrongAnswerState(); 
+                    updateResponse = (event) => {
+                        this.setState({response: event.target.value}); 
+                    }
+
+                    inputKeyPress = (event) => {
+                        if (event.key === 'Enter') {
+                            const operation_str = this.state.operation_str; 
+                            const num1 = this.state.num1; 
+                            const num2 = this.state.num2; 
+                            const actual_answer = getActualAnswer(operation_str, num1, num2); 
+                            const answer = parseInt(this.state.response); 
+
+                            if (actual_answer === answer) {
+                                this.updateState(); 
+                            } else {
+                                this.wrongAnswerState(); 
+                            }
                         }
                     }
-                }
 
-                // if answer is wrong then 
-                wrongAnswerState = () => {
-                    this.setState({
-                        response: "", 
-                        incorrect: true
-                    }); 
-                }
-
-                updateState = () => {
-                    this.setState({
-                            num1: Math.ceil(Math.random() * 10), 
-                            num2: Math.ceil(Math.random() * 10),
+                    // if answer is wrong then 
+                    wrongAnswerState = () => {
+                        this.setState({
                             response: "", 
-                            incorrect: false, 
-                            operation_str: getRandomOp()
-                        });
-                }
+                            incorrect: true
+                        }); 
+                    }
 
-                updateDivisionState = () => {
-                    if (this.state.operation_str === '/'){
-                        this.updateState()
+                    updateState = () => {
+                        this.setState({
+                                num1: Math.ceil(Math.random() * 10), 
+                                num2: Math.ceil(Math.random() * 10),
+                                response: "", 
+                                incorrect: false, 
+                                operation_str: getRandomOp()
+                            });
+                    }
+
+                    updateDivisionState = () => {
+                        if (this.state.operation_str === '/'){
+                            this.updateState()
+                        }
+                    }
+
+                    render() {
+                        return (<div>
+                            <h1>Mental Math Tester</h1>
+                            <div className={this.state.incorrect ? "incorrect" : ""}>
+                                <span className="num"> {this.state.num1} 
+                                </span> <span className="op"> {this.state.operation_str} </span>
+                                <span className="num"> {this.state.num2} </span>
+                            </div>
+                            <div>
+                                <input 
+                                    className="form-control"
+                                    value={this.state.response} 
+                                    onKeyPress={this.inputKeyPress} 
+                                    onChange={this.updateResponse} 
+                                />
+                                <button 
+                                    className="btn btn-dark"
+                                    onClick={this.updateDivisionState}>Report Float</button>
+                            </div>
+                        </div>); 
                     }
                 }
 
-                render() {
-                    return (<div>
-                        <h1>Mental Math Tester</h1>
-                        <div className={this.state.incorrect ? "incorrect" : ""}>
-                            <span className="num"> {this.state.num1} 
-                            </span> <span className="op"> {this.state.operation_str} </span>
-                            <span className="num"> {this.state.num2} </span>
-                        </div>
-                        <div>
-                            <input 
-                                value={this.state.response} 
-                                onKeyPress={this.inputKeyPress} 
-                                onChange={this.updateResponse} 
-                            />
-                            <button onClick={this.updateDivisionState}>Report Float</button>
-                        </div>
-                    </div>); 
-                }
-            }
-
-            // render the dom
-            ReactDOM.render(<App />, document.getElementById('app')); 
-        
-        </script>
-    </body>
-</html>
+                // render the dom
+                ReactDOM.render(<App />, document.getElementById('app')); 
+            
+            </script>
+        </body>
+    </html>
