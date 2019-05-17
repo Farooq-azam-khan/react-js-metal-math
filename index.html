@@ -36,6 +36,7 @@
         <div id="app"/>
         <script type="text/babel">
             function getActualAnswer(op, num1, num2) {
+            
                 if (op === '+') {
                     return num1 + num2; 
                 } else if (op === '-') { 
@@ -83,19 +84,27 @@
                         
 
                         if (actual_answer === answer) {
-                            this.setState({
-                                num1: Math.ceil(Math.random() * 10), 
-                                num2: Math.ceil(Math.random() * 10),
-                                response: "", 
-                                incorrect: false, 
-                                operation_str: getRandomOp()
-                            }); 
+                            this.updateState(); 
                         } else {
                             this.setState({
                                 response: "", 
                                 incorrect: true
                             }); 
                         }
+                    }
+                }
+                updateState = () => {
+                    this.setState({
+                            num1: Math.ceil(Math.random() * 10), 
+                            num2: Math.ceil(Math.random() * 10),
+                            response: "", 
+                            incorrect: false, 
+                            operation_str: getRandomOp()
+                        });
+                }
+                updateDivisionState = () => {
+                    if (this.state.operation_str === '/'){
+                        this.updateState()
                     }
                 }
                 render() {
@@ -107,6 +116,7 @@
                             <span className="num"> {this.state.num2} </span>
                         </div>
                         <input value={this.state.response} onKeyPress={this.inputKeyPress} onChange={this.updateResponse} />
+                        <button onClick={this.updateDivisionState}>Report Float</button>
                     </div>); 
                 }
             }
