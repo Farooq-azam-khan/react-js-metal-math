@@ -36,7 +36,6 @@
         <div id="app"/>
         <script type="text/babel">
             function getActualAnswer(op, num1, num2) {
-                console.log(`opertion ${op}`)
                 if (op === '+') {
                     return num1 + num2; 
                 } else if (op === '-') { 
@@ -49,8 +48,6 @@
             }
             function getRandomOp() {
                 const random_number = Math.floor(Math.random() * 4);
-                console.log(`random op ${random_number}`); 
-
                 if (random_number === 0) { 
                     return '+';
                 } else if (random_number === 1) {
